@@ -6,13 +6,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.media.tv.TvView;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -28,12 +31,16 @@ import com.squareup.picasso.Picasso;
 import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String TAG = "AddMovieFragment";
     private FloatingActionButton fab;
     ScaleAnimation shrinkAnim;
     private RecyclerView recyclerView;
     private StaggeredGridLayoutManager layoutManager;
     private FirebaseRecyclerAdapter<Movie,MovieViewHolder> adapter;
     private TextView tvNoMovies;
+
+    private Button btnUploadImage;
 
     private DatabaseReference movieReference;
     FirebaseDatabase firebaseDatabase;
@@ -47,8 +54,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        btnUploadImage = (Button)findViewById(R.id.upload_screen);
         recyclerView = (RecyclerView)findViewById(R.id.my_recycler_view);
         tvNoMovies = (TextView)findViewById(R.id.tv_no_movies);
+
+
+
+        btnUploadImage.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void  onClick(View view){
+                Intent i = new Intent(getApplicationContext(), UploadActivity.class);
+
+                startActivity(i);
+            }
+        });
+
 
         shrinkAnim = new ScaleAnimation(1.15f,0f,1.15f,0f
                 , Animation.RELATIVE_TO_SELF,
@@ -67,6 +87,8 @@ public class MainActivity extends AppCompatActivity {
                 .child("users").child(userId).child("movies");
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference();
+
+
 
         FirebaseRecyclerOptions<Movie> options = new FirebaseRecyclerOptions.Builder<Movie>()
                 .setQuery(movieReference,Movie.class)
@@ -136,6 +158,12 @@ public class MainActivity extends AppCompatActivity {
                 });
             }
         });
+
+
+
+
+
+
     }
 
     @Override

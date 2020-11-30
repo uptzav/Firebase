@@ -1,7 +1,9 @@
 package com.example.firebasedatabaseexample;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,12 +23,16 @@ import java.util.UUID;
 import java.util.zip.Inflater;
 
 public class AddMovieFragment extends Fragment {
+
+
     private DatabaseReference databaseReference;
     private TextInputEditText movieName;
     private TextInputEditText movieLogo;
     private RatingBar ratingBar;
     private Button submit;
     View view;
+
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater
@@ -36,6 +42,8 @@ public class AddMovieFragment extends Fragment {
         movieLogo = (TextInputEditText)view.findViewById(R.id.tiet_movie_logo);
         submit = (Button)view.findViewById(R.id.b_submit);
         ratingBar = (RatingBar)view.findViewById(R.id.rating_bar);
+
+
 
         //_inicializar la BBDD
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -60,6 +68,8 @@ public class AddMovieFragment extends Fragment {
             }
         });
         return view;
+
+
     }
 
     private void newMovie(String userId, String movieName, String moviePoster, float rating){
